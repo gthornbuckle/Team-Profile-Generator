@@ -13,25 +13,53 @@ const render = require("./src/page-template.js");
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 
-// inquirer.prompt([{
-//     //managerquestions
-// }]).then(response => {
-//     // populate manager info
-//     // promptForNexEMployee ()
-// })
+inquirer.prompt([
+    {
+        type: 'input',
+        name: 'name',
+        message: "What is your manager's name?"
+    },
+    {
+        type: 'input',
+        name: 'id',
+        message: "What is your manager's ID?"
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: "What is your manager's email address?"
+    },
+    {
+        type: 'input',
+        name: 'officeNumber',
+        message: "What is your manager's office number?" 
+    }
+]).then(response => {
+    // populate manager info
+    promptAddNewEmployee();
+})
 
-// const promptForNextEmployee = () => {
-//     inquirer.prompt([{
-//         // choice of 3
-//     }]).then(response => {
-//         // if engineer
-//         //    promptForEngineer
-//         // else if intern
-//         //    promptForIntern
-//         // else
-//         //    use the functionality from page-template to generate the team
-//     })
-// }
+const promptAddNewEmployee = () => {
+    inquirer.prompt([
+        {
+            type: 'list',
+            message: 'Which type of team member do you want to add?',
+            name: 'employeeType',
+            choices: ['Engineer', 'Intern', 'Exit'],
+            suffix: ' (Use arrow keys to choose an option)'
+        }
+    ]).then(response => {
+        if (response.employeeType === 'Engineer'){
+           console.log('Engineer selected');
+        }
+        else if (response.employeeType === 'Intern'){
+            console.log('Intern selected');
+        }
+        else{
+            console.log('Build Page');
+        }
+    })
+}
 
 // const promptForEngineer = () => {
 //     inquirer.prompt([{
