@@ -12,6 +12,7 @@ const render = require("./src/page-template.js");
 
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
+employeesArray = [];
 
 inquirer.prompt([
     {
@@ -35,7 +36,8 @@ inquirer.prompt([
         message: "What is your manager's office number?" 
     }
 ]).then(response => {
-    // populate manager info
+    const manager = new Manager(response.name, response.id, response.email, response.officeNumber);
+    employeesArray.push(manager);
     promptAddNewEmployee();
 })
 
@@ -50,10 +52,10 @@ const promptAddNewEmployee = () => {
         }
     ]).then(response => {
         if (response.employeeType === 'Engineer'){
-           console.log('Engineer selected');
+            promptNewEngineer();
         }
         else if (response.employeeType === 'Intern'){
-            console.log('Intern selected');
+            promptNewIntern();
         }
         else{
             console.log('Build Page');
@@ -61,23 +63,63 @@ const promptAddNewEmployee = () => {
     })
 }
 
-// const promptForEngineer = () => {
-//     inquirer.prompt([{
-//         //engineer questions
-//     }]).then(response => {
-//         // add new engineer to employees array
-//         // promptForNextEmployee
-//     })
-// }
+const promptNewEngineer = () => {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message: "What is your engineer's name?"
+        },
+        {
+            type: 'input',
+            name: 'id',
+            message: "What is your engineer's ID?"
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: "What is your engineer's email address?"
+        },
+        {
+            type: 'input',
+            name: 'github',
+            message: "What is your engineer's github username?" 
+        }
+    ]).then(response => {
+        const engineer = new Engineer(response.name, response.id, response.email, response.github);
+        employeesArray.push(engineer);
+        promptAddNewEmployee();
+    })
+}
 
-// const promptForIntern = () => {
-//     inquirer.prompt([{
-//         //intern questions
-//     }]).then(response => {
-//         // add new intern to employees array
-//         // promptForNextEmployee
-//     })
-// }
+const promptNewIntern = () => {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message: "What is your intern's name?"
+        },
+        {
+            type: 'input',
+            name: 'id',
+            message: "What is your intern's ID?"
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: "What is your intern's email address?"
+        },
+        {
+            type: 'input',
+            name: 'github',
+            message: "What is your intern's school?"
+        }
+    ]).then(response => {
+        const intern = new Intern(response.name, response.id, response.email, response.school);
+        employeesArray.push(intern);
+        promptAddNewEmployee();
+    })
+}
 
 // const buildPage = () => {
 
