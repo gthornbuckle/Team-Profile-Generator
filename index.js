@@ -10,11 +10,9 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./src/page-template.js");
 
+employeesArray = []; //Array to store generated employees
 
-// TODO: Write Code to gather information about the development team members, and render the HTML file.
-employeesArray = [];
-
-inquirer.prompt([
+inquirer.prompt([ //Questions to create a new manager
     {
         type: 'input',
         name: 'name',
@@ -36,12 +34,12 @@ inquirer.prompt([
         message: "What is your manager's office number?" 
     }
 ]).then(response => {
-    const manager = new Manager(response.name, response.id, response.email, response.officeNumber);
-    employeesArray.push(manager);
+    const manager = new Manager(response.name, response.id, response.email, response.officeNumber); //Creates new manager
+    employeesArray.push(manager); //Saves manager to employee array
     promptAddNewEmployee();
 })
 
-const promptAddNewEmployee = () => {
+const promptAddNewEmployee = () => { //Prompt for adding engineer/intern or exiting
     inquirer.prompt([
         {
             type: 'list',
@@ -58,13 +56,13 @@ const promptAddNewEmployee = () => {
             promptNewIntern();
         }
         else{
-            console.log('Build Page');
+            buildPage(employeesArray);
         }
     })
 }
 
 const promptNewEngineer = () => {
-    inquirer.prompt([
+    inquirer.prompt([ //Questions to create a new engineer
         {
             type: 'input',
             name: 'name',
@@ -93,7 +91,7 @@ const promptNewEngineer = () => {
 }
 
 const promptNewIntern = () => {
-    inquirer.prompt([
+    inquirer.prompt([ //Questions to create a new intern
         {
             type: 'input',
             name: 'name',
@@ -111,7 +109,7 @@ const promptNewIntern = () => {
         },
         {
             type: 'input',
-            name: 'github',
+            name: 'school',
             message: "What is your intern's school?"
         }
     ]).then(response => {
@@ -121,6 +119,12 @@ const promptNewIntern = () => {
     })
 }
 
-// const buildPage = () => {
+const writeToFile = html => { //function to write html to file
+    fs.writeFile(outputPath, html, (err) =>
+    err ? console.log(err) : console.log('File created successfully.')
+  );
+}
 
-// }
+const buildPage = team => {
+    writeToFile(render(team)); //Creates html using employee array
+}
